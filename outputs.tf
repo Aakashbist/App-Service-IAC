@@ -14,6 +14,3 @@ output "storage_account_id" {
   value = module.storage_account.storage_account_id
 }
 
-output "storage_account_connection_string" {
-  value = module.storage_account.storage_account_connection_string
-}
