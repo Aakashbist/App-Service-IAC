@@ -21,6 +21,12 @@ provider "azurerm" {
   features {}
 }
 
+# Generate a random integer to create a globally unique name
+resource "random_integer" "ri" {
+  min = 10000
+  max = 99999
+}
+
 resource "azurerm_resource_group" "resource_group" {
   name     = var.resource_group_name
   location = var.location
@@ -28,26 +34,25 @@ resource "azurerm_resource_group" "resource_group" {
 
 module "app_service_plan" {
   source                = "./modules/appServicePlan"
-  app_service_plan_name = var.app_service_plan_name
+  app_service_plan_name = "webapp-asp-${random_integer.ri.result}"
   resource_group_name   = azurerm_resource_group.resource_group.name
   location              = azurerm_resource_group.resource_group.location
-  app_service_plan_sku  = var.app_service_plan_sku
 }
 
 module "app_service" {
-  source               = "./modules/appService"
-  app_service_name     = var.app_service_name
-  resource_group_name  = azurerm_resource_group.resource_group.name
-  location             = azurerm_resource_group.resource_group.location
-  app_service_plan_id  = module.app_service_plan.app_service_plan_id
+  source              = "./modules/appService"
+  app_service_name    = "webapp-${random_integer.ri.result}"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.resource_group.location
+  app_service_plan_id = module.app_service_plan.app_service_plan_id
 }
 
 module "storage_account" {
-  source                 = "./modules/storageAccount"
-  storage_account_name   = var.storage_account_name
-  resource_group_name    = azurerm_resource_group.resource_group.name
-  location               = azurerm_resource_group.resource_group.location
-  storage_account_tier   = var.storage_account_tier
+  source               = "./modules/storageAccount"
+  storage_account_name = "webappstoreage${random_integer.ri.result}"
+  resource_group_name  = azurerm_resource_group.resource_group.name
+  location             = azurerm_resource_group.resource_group.location
+  storage_account_tier = var.storage_account_tier
 }
 
 
