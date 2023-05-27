@@ -1,4 +1,4 @@
 
 
 
-az webapp config container set --name <webapp-66721> --docker-custom-image-name aakashbista45/testapi:v2 --docker-registry-server-url https://index.docker.io/aakashbista45 --docker-registry-server-user aakashbista45 --docker-registry-server-password <secrete> --resource-group rg_infraakash
+az webapp config container set --name <webapp-66721> --docker-custom-image-name aakashbista45/testapi:v2 --docker-registry-server-url https://index.docker.io/aakashbista45 --docker-registry-server-user aakashbista45 --docker-registry-server-password <secrete> --resource-group <RG>
